@@ -74,7 +74,6 @@
     <Compile Include="ImageProcessing\FilterList.cs" />
     <Compile Include="ImageProcessing\FunctionFilter.cs" />
     <Compile Include="ImageProcessing\FunctionFilterTemplates.cs" />
-    <Compile Include="ImageProcessing\ICloneable.cs" />
     <Compile Include="ImageProcessing\ImageFilter.cs" />
     <Compile Include="ImageProcessing\MonoFunctionFilter.cs" />
     <Compile Include="MainWindow.xaml.cs">

@@ -46,9 +46,9 @@ namespace ImageFiltering
             FilterList.Add(ConvolutionFilter.SmallEdgeDetection(2));
             FilterList.Add(ConvolutionFilter.LargeEdgeDetection());
             FilterList.Add(ConvolutionFilter.EmbossFilterRight);
-            FilterList.Add(ConvolutionFilter.EmbossFilterLeft);
-            FilterList.Add(ConvolutionFilter.EmbossFilterUp);
-            FilterList.Add(ConvolutionFilter.EmbossFilterDown);
+            //FilterList.Add(ConvolutionFilter.EmbossFilterLeft);
+            //FilterList.Add(ConvolutionFilter.EmbossFilterUp);
+            //FilterList.Add(ConvolutionFilter.EmbossFilterDown);
 
 
             FilterListView.ItemsSource = FilterList;
