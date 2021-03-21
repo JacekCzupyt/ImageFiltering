@@ -55,6 +55,7 @@ namespace ImageFiltering.UserControls
                 }
             }
 
+            //fill in dimensions and apply them to the grid
             MatrixWidthTextBox.Text = EditedConvolutionFilter.Matrix.Width.ToString();
             MatrixHeightTextBox.Text = EditedConvolutionFilter.Matrix.Height.ToString();
             ApplyDimensionsButtonClick(null, null);

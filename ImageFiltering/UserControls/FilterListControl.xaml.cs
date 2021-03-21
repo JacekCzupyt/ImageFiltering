@@ -67,15 +67,14 @@ namespace ImageFiltering.UserControls
             }
         }
 
-        //only works on convolution filters
+        //only works on clonable filters
         private void DuplicateFilterButtonClick(object sender, RoutedEventArgs e)
         {
-
             if (FilterListView.SelectedItem != null)
             {
-                if (FilterListView.SelectedItem is ConvolutionFilter)
+                if (FilterListView.SelectedItem is ICloneable)
                 {
-                    FilterList.Add((FilterListView.SelectedItem as ConvolutionFilter).Clone() as ConvolutionFilter);
+                    FilterList.Add((FilterListView.SelectedItem as ICloneable).Clone() as ImageFilter);
                     FilterListView.SelectedItem = FilterList.Last();
                 }
             }
