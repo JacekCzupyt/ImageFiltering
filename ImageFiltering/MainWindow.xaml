@@ -37,47 +37,8 @@
             </Grid>
 
             <Image Grid.Column="2" Name="FilteredImageDisplay" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+            
             <ContentControl Name="FilterManagementControl" Grid.Column="4" Margin="2"/>
-
-            <Grid Name="FilterListGrid" Grid.Column="4" Margin="2" Visibility="Collapsed">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <ListView Name="FilterListView" SelectionMode="Single">
-                    <ListView.GroupStyle>
-                        <GroupStyle>
-                            <GroupStyle.HeaderTemplate>
-                                <DataTemplate>
-                                    <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Name}"/>
-                                </DataTemplate>
-                            </GroupStyle.HeaderTemplate>
-                        </GroupStyle>
-                    </ListView.GroupStyle>
-                </ListView>
-                <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
-                    
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Button VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Content="Edit" Click="EditFilterButtonClick"/>
-                        <Button VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Content="New Filter" Click="AddNewFilterButtonClick" Grid.Column="1"/>
-                        <Button VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Content="Delete" Click="DeleteFilterButtonClick" Grid.Column="1" Grid.Row="1"/>
-                        <Button VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Content="Duplicate" Click="DuplicateFilterButtonClick" Grid.Row="1"/>
-                    </Grid>
-                    
-                    
-                    <Button VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="25" Content="Apply" Click="ApplyFilterButtonClick"/>
-                </StackPanel>
-                
-            </Grid>
 
             <Grid Name="FilterEditPanel" Grid.Column="4" Margin="2" Visibility="Collapsed">
                 <Grid.RowDefinitions>

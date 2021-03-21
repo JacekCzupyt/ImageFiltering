@@ -117,25 +117,25 @@ namespace ImageFiltering
 
         private void SaveFilterButtonClick(object sender, RoutedEventArgs e)
         {
-            if(FilterListView.SelectedItem == null)
-            {
-                FilterList.Add(EditedConvolutionFilter);
-            }
-            else
-            {
-                FilterList[FilterList.IndexOf(FilterListView.SelectedItem as ImageFilter)] = EditedConvolutionFilter;
-            }
-            FilterListView.SelectedItem = EditedConvolutionFilter;
-            EditedConvolutionFilter = null;
-            FilterEditPanel.Visibility = Visibility.Collapsed;
-            FilterListGrid.Visibility = Visibility.Visible;
+            //if(FilterListView.SelectedItem == null)
+            //{
+            //    FilterList.Add(EditedConvolutionFilter);
+            //}
+            //else
+            //{
+            //    FilterList[FilterList.IndexOf(FilterListView.SelectedItem as ImageFilter)] = EditedConvolutionFilter;
+            //}
+            //FilterListView.SelectedItem = EditedConvolutionFilter;
+            //EditedConvolutionFilter = null;
+            //FilterEditPanel.Visibility = Visibility.Collapsed;
+            //FilterListGrid.Visibility = Visibility.Visible;
         }
 
         private void CancelFilterButtonClick(object sender, RoutedEventArgs e)
         {
-            EditedConvolutionFilter = null;
-            FilterEditPanel.Visibility = Visibility.Collapsed;
-            FilterListGrid.Visibility = Visibility.Visible;
+            //EditedConvolutionFilter = null;
+            //FilterEditPanel.Visibility = Visibility.Collapsed;
+            //FilterListGrid.Visibility = Visibility.Visible;
         }
     }
 }
