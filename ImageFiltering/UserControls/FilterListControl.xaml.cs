@@ -116,8 +116,7 @@ namespace ImageFiltering.UserControls
 
         private void FilterClicked(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount == 2)
-                ApplyFilterButtonClick(sender, e);
+            ApplyFilterButtonClick(sender, e);
         }
     }
 }

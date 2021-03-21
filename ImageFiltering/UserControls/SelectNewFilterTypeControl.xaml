@@ -15,9 +15,14 @@
         <ListView Name="FilterTypeListView" SelectionMode="Single">
             <ListView.ItemTemplate>
                 <ItemContainerTemplate>
-                    <TextBlock FontSize="20" Text="{Binding}" MouseLeftButtonDown="ListItemClick"/>
+                    <TextBlock FontSize="20" Text="{Binding}"/>
                 </ItemContainerTemplate>
             </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <EventSetter Event="MouseDoubleClick" Handler="ListItemClick"/>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
 
         <Grid Grid.Row="1" VerticalAlignment="Bottom">

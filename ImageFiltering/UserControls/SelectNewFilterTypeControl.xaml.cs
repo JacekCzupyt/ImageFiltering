@@ -51,8 +51,7 @@ namespace ImageFiltering.UserControls
 
         private void ListItemClick(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount == 2)
-                SelectButtonClick(sender, e);
+            SelectButtonClick(sender, e);
         }
     }
 }
