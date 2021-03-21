@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ImageFiltering.ImageProcessing
 {
-    interface ImageFilter
+    public interface ImageFilter
     {
         void Apply(Bitmap bitmap);
         string FilterType { get; }

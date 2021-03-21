@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ImageFiltering.ImageProcessing
 {
 
-    partial class FunctionFilter : ImageFilter
+    public partial class FunctionFilter : ImageFilter
     {
         public static FunctionFilter Identity { get
             {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImageFiltering.ImageProcessing
 {
-    partial class MonoFunctionFilter : ImageFilter
+    public partial class MonoFunctionFilter : ImageFilter
     {
         FunctionFilterTemplate TransformFunction;
         string FilterName;
