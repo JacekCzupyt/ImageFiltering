@@ -60,6 +60,15 @@ namespace ImageFiltering
             FilterListPanel.DataContext = FilterList;
             FilterManagementControl.Content = FilterListPanel;
         }
+
+        public void ApplyFilter(ImageFilter filter)
+        {
+            if(FilteredImage != null)
+            {
+                filter.Apply(FilteredImage);
+                FilteredImageDisplay.Source = BitmapToImageSource(FilteredImage);
+            }
+        }
         private void ApplyFilterButtonClick(object sender, RoutedEventArgs e)
         {
             if (FilterListView.SelectedItem != null && FilteredImage != null)

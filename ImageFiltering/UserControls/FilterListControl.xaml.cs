@@ -37,29 +37,78 @@ namespace ImageFiltering.UserControls
             view.GroupDescriptions.Add(groupDescription);
         }
 
-        private void EditFilterButtonClick(object sender, RoutedEventArgs e)
+        private void ApplyFilterButtonClick(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void AddNewFilterButtonClick(object sender, RoutedEventArgs e)
-        {
-
+            if (FilterListView.SelectedItem != null)
+            {
+                if (FilterListView.SelectedItem is ImageFilter)
+                {
+                    ParentWindow.ApplyFilter(FilterListView.SelectedItem as ImageFilter);
+                }
+                else
+                {
+                    throw new ArgumentException("Item in filter list is not a filter");
+                }
+            }
         }
 
         private void DeleteFilterButtonClick(object sender, RoutedEventArgs e)
         {
-
+            if (FilterListView.SelectedItem != null)
+            {
+                if (FilterListView.SelectedItem is ImageFilter)
+                {
+                    FilterList.Remove(FilterListView.SelectedItem as ImageFilter);
+                }
+                else
+                {
+                    throw new ArgumentException("Item in filter list is not a filter");
+                }
+            }
         }
 
+        //only works on convolution filters
         private void DuplicateFilterButtonClick(object sender, RoutedEventArgs e)
         {
 
+            if (FilterListView.SelectedItem != null)
+            {
+                if (FilterListView.SelectedItem is ConvolutionFilter)
+                {
+                    FilterList.Add((FilterListView.SelectedItem as ConvolutionFilter).Clone() as ConvolutionFilter);
+                    FilterListView.SelectedItem = FilterList.Last();
+                }
+            }
         }
 
-        private void ApplyFilterButtonClick(object sender, RoutedEventArgs e)
+        private void EditFilterButtonClick(object sender, RoutedEventArgs e)
         {
+            //if (FilterListView.SelectedItem != null && FilterListView.SelectedItem is ConvolutionFilter)
+            //{
+            //    EditedConvolutionFilter = (FilterListView.SelectedItem as ConvolutionFilter).Clone() as ConvolutionFilter;
+            //    FilterEditPanel.DataContext = EditedConvolutionFilter;
+            //    MatrixWidthTextBox.Text = EditedConvolutionFilter.Matrix.Width.ToString();
+            //    MatrixHeightTextBox.Text = EditedConvolutionFilter.Matrix.Height.ToString();
+            //    ApplyDimensionsButtonClick(null, null);
 
+            //    FilterListGrid.Visibility = Visibility.Collapsed;
+            //    FilterEditPanel.Visibility = Visibility.Visible;
+            //}
+        }
+
+        private void AddNewFilterButtonClick(object sender, RoutedEventArgs e)
+        {
+            //FilterListView.SelectedItem = null;
+            //EditedConvolutionFilter = ConvolutionFilter.Blur(3);//arbitrary default filter
+            //EditedConvolutionFilter.FilterName = "New Filter";
+
+            //FilterEditPanel.DataContext = EditedConvolutionFilter;
+            //MatrixWidthTextBox.Text = EditedConvolutionFilter.Matrix.Width.ToString();
+            //MatrixHeightTextBox.Text = EditedConvolutionFilter.Matrix.Height.ToString();
+            //ApplyDimensionsButtonClick(null, null);
+
+            //FilterListGrid.Visibility = Visibility.Collapsed;
+            //FilterEditPanel.Visibility = Visibility.Visible;
         }
     }
 }
