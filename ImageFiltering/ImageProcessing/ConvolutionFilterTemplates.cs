@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ImageFiltering.ImageProcessing
 {
-    partial class ConvolutionFilter : ImageFilter
+    public partial class ConvolutionFilter : ImageFilter
     {
         public static ConvolutionFilter Blur(int Size)
         {

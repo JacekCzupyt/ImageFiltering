@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ImageFiltering.ImageProcessing
 {
     public delegate byte FunctionFilterTemplate(byte input);
-    partial class FunctionFilter : ImageFilter
+    public partial class FunctionFilter : ImageFilter
     {
         FunctionFilterTemplate TransformFunction;
         string FilterName;

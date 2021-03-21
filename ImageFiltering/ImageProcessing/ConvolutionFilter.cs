@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ImageFiltering.ImageProcessing
 {
-    partial class ConvolutionFilter : ImageFilter, ICloneable
+    public partial class ConvolutionFilter : ImageFilter, ICloneable
     {
         public string FilterType { get { return "Convolution Filters"; } }
 
@@ -101,7 +101,7 @@ namespace ImageFiltering.ImageProcessing
 
 
 
-    class ConvolutionMatrix : ICloneable
+    public class ConvolutionMatrix : ICloneable
     {
         public int Width { get; private set; }
         public int Height { get; private set; }

@@ -76,6 +76,7 @@
     <Compile Include="ImageProcessing\FunctionFilterTemplates.cs" />
     <Compile Include="ImageProcessing\ImageFilter.cs" />
     <Compile Include="ImageProcessing\MonoFunctionFilter.cs" />
+    <Compile Include="ImageProcessing\OctreeColorQuantisation.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
