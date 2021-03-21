@@ -25,8 +25,6 @@ namespace ImageFiltering
             InitializeComponent();
 
             InitializeFilterList();
-
-            InitializeFilterEditPanel();
         }
 
     }

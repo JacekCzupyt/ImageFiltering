@@ -37,86 +37,8 @@
             </Grid>
 
             <Image Grid.Column="2" Name="FilteredImageDisplay" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            
+
             <ContentControl Name="FilterManagementControl" Grid.Column="4" Margin="2"/>
-
-            <Grid Name="FilterEditPanel" Grid.Column="4" Margin="2" Visibility="Collapsed">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <StackPanel Margin="2">
-                        <TextBlock Text="Filter Name" TextAlignment="Center"/>
-                        <TextBox TextAlignment="Center" Text="{Binding Path=FilterName, Mode=TwoWay}"/>
-
-                        <Rectangle Height="5"/>
-
-                        <TextBlock Text="Matrix Dimensions" TextAlignment="Center"/>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox Name="MatrixWidthTextBox" TextAlignment="Center"/>
-                            <TextBlock Text="x" Grid.Column="1" Width="15" TextAlignment="Center"/>
-                            <TextBox Name="MatrixHeightTextBox" Grid.Column="2" TextAlignment="Center"/>
-                        </Grid>
-                        <Button Content="Apply" Width="50" Click="ApplyDimensionsButtonClick"/>
-
-                        <Rectangle Height="5"/>
-
-                        <Grid Name="EditConvolutionMatrixGrid" ShowGridLines="True" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5"/>
-
-                        <Rectangle Height="5"/>
-
-                        <TextBlock Text="Divisor" TextAlignment="Center"/>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBox Name="DivisorTextBox" TextAlignment="Center" Text="{Binding Path=Matrix.Divisor, Mode=TwoWay}"/>
-                            <Button Grid.Column="1" Content="Compute" Click="ComputeDivisorButtonClick"/>
-                        </Grid>
-
-                        <Rectangle Height="5"/>
-
-                        <TextBlock Text="Offset" TextAlignment="Center"/>
-                        <TextBox Name="OffsetTextBox" TextAlignment="Center" Text="{Binding Path=Matrix.Offset, Mode=TwoWay}"/>
-
-                        <Rectangle Height="5"/>
-
-                        <TextBlock Text="Anchor Point" TextAlignment="Center"/>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox Name="AnchorXTextBox" TextAlignment="Center" Text="{Binding Path=Matrix.AnchorX, Mode=TwoWay}"/>
-                            <TextBlock Text="x" Grid.Column="1" Width="15" TextAlignment="Center"/>
-                            <TextBox Name="AnchorYTextBox" Grid.Column="2" TextAlignment="Center" Text="{Binding Path=Matrix.AnchorY, Mode=TwoWay}"/>
-                        </Grid>
-                        <Button Content="Center" Width="50" Click="CenterAnchorButtonClick"/>
-
-                        <Rectangle Height="5"/>
-                    </StackPanel>
-                </ScrollViewer>
-
-                <Grid Grid.Row="1" VerticalAlignment="Bottom">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <Button Content="Save" Click="SaveFilterButtonClick"/>
-                    <Button Grid.Column="1" Content="Cancel" Click="CancelFilterButtonClick"/>
-                </Grid>
-            </Grid>
 
         </Grid>
     </DockPanel>

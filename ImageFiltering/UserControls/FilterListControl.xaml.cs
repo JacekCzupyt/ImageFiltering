@@ -83,21 +83,22 @@ namespace ImageFiltering.UserControls
 
         private void EditFilterButtonClick(object sender, RoutedEventArgs e)
         {
-            //if (FilterListView.SelectedItem != null && FilterListView.SelectedItem is ConvolutionFilter)
-            //{
-            //    EditedConvolutionFilter = (FilterListView.SelectedItem as ConvolutionFilter).Clone() as ConvolutionFilter;
-            //    FilterEditPanel.DataContext = EditedConvolutionFilter;
-            //    MatrixWidthTextBox.Text = EditedConvolutionFilter.Matrix.Width.ToString();
-            //    MatrixHeightTextBox.Text = EditedConvolutionFilter.Matrix.Height.ToString();
-            //    ApplyDimensionsButtonClick(null, null);
-
-            //    FilterListGrid.Visibility = Visibility.Collapsed;
-            //    FilterEditPanel.Visibility = Visibility.Visible;
-            //}
+            if (FilterListView.SelectedItem != null)
+            {
+                if (FilterListView.SelectedItem is ImageFilter)
+                {
+                    ParentWindow.SwitchToEditFilter(FilterListView.SelectedItem as ImageFilter);
+                }
+                else
+                {
+                    throw new ArgumentException("Item in filter list is not a filter");
+                }
+            }
         }
 
         private void AddNewFilterButtonClick(object sender, RoutedEventArgs e)
         {
+            throw new NotImplementedException();
             //FilterListView.SelectedItem = null;
             //EditedConvolutionFilter = ConvolutionFilter.Blur(3);//arbitrary default filter
             //EditedConvolutionFilter.FilterName = "New Filter";
@@ -109,6 +110,19 @@ namespace ImageFiltering.UserControls
 
             //FilterListGrid.Visibility = Visibility.Collapsed;
             //FilterEditPanel.Visibility = Visibility.Visible;
+        }
+
+        public void InsertIntoList(ImageFilter filter)
+        {
+            if (FilterListView.SelectedItem == null)
+            {
+                FilterList.Add(filter);
+            }
+            else
+            {
+                FilterList[FilterList.IndexOf(FilterListView.SelectedItem as ImageFilter)] = filter;
+            }
+            FilterListView.SelectedItem = filter;
         }
     }
 }

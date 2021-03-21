@@ -15,7 +15,7 @@ namespace ImageFiltering
     {
         //contians a list of all avalible filters
         ObservableCollection<ImageFilter> FilterList = new ObservableCollection<ImageFilter>();
-        FilterListControl FilterListPanel;
+        public FilterListControl FilterListPanel;
 
         void InitializeFilterList()
         {
@@ -67,6 +67,17 @@ namespace ImageFiltering
                 filter.Apply(FilteredImage);
                 FilteredImageDisplay.Source = BitmapToImageSource(FilteredImage);
             }
+        }
+
+        public void SwitchToEditFilter(ImageFilter filter)
+        {
+            if (filter is ConvolutionFilter)
+                FilterManagementControl.Content = new EditConvolutionFilterControl(this, (filter as ConvolutionFilter).Clone() as ConvolutionFilter);
+        }
+
+        public void SwitchToListView()
+        {
+            FilterManagementControl.Content = FilterListPanel;
         }
     }
 }
