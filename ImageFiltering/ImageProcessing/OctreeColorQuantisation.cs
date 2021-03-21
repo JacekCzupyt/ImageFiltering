@@ -61,7 +61,8 @@ namespace ImageFiltering.ImageProcessing
                 {
                     while (LeafsPerLayer[ind].Count == 0)
                         ind--;
-                    LeafsPerLayer[ind].Last().Reduce();
+                    //reduce the leaf with minimum pixel count value
+                    LeafsPerLayer[ind].Min().Reduce();
                 }
             }
 
@@ -95,7 +96,7 @@ namespace ImageFiltering.ImageProcessing
             /// <summary>
             /// A single node of the octree
             /// </summary>
-            class OctreeNode
+            class OctreeNode : IComparable<OctreeNode>
             {
                 Octree Tree;
                 OctreeNode Parent;
@@ -194,6 +195,22 @@ namespace ImageFiltering.ImageProcessing
                     //mark this as leaf
                     Tree.nLeafs++;
                     Tree.LeafsPerLayer[Layer].Add(this);
+                }
+
+                //used for the min function when figuring out which leaf to reduce
+                public int CompareTo(OctreeNode other)
+                {
+                    //elimitanes the double null scenario
+                    if (PixelCount == other.PixelCount)
+                        return 0;
+                    //if pixel count is null, it's not a leaf, therefore should be heigher (technically shouldn't be comapred at all, but may as well extend this)
+                    if (!PixelCount.HasValue)
+                        return 1;
+
+                    if (!other.PixelCount.HasValue)
+                        return -1;
+                    //if both have value, return their difference
+                    return PixelCount.Value - other.PixelCount.Value;
                 }
             }
         }
