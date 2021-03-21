@@ -5,22 +5,60 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using System.Drawing.Imaging;
 
 namespace ImageFiltering.ImageProcessing
 {
     
     public class OctreeColorQuantisation : ImageFilter
     {
+        public uint KValue { get; set; }
+
+        public OctreeColorQuantisation(uint KValue)
+        {
+            this.KValue = KValue;
+        }
+
         public string FilterType { get { return "Color Quantisers"; } }
 
         public void Apply(Bitmap bitmap)
         {
-            throw new NotImplementedException();
+            // Lock the bitmap's bits.  
+            Rectangle rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+            BitmapData bmpData =
+                bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite,
+                bitmap.PixelFormat);
+
+            // Get the address of the first line.
+            IntPtr ptr = bmpData.Scan0;
+
+            // Declare an array to hold the bytes of the bitmap.
+            int bytes = Math.Abs(bmpData.Stride) * bitmap.Height;
+            byte[] rgbValues = new byte[bytes];
+
+            // Copy the RGB values into the array.
+            System.Runtime.InteropServices.Marshal.Copy(ptr, rgbValues, 0, bytes);
+
+            int bytesPerPixel = bmpData.Stride / bmpData.Width;
+            // Build Octree
+            Octree tree = new Octree(KValue);
+            for (int counter = 0; counter < rgbValues.Length; counter += bytesPerPixel)
+                tree.AddColor(rgbValues[counter], rgbValues[counter + 1], rgbValues[counter + 2]);
+
+            // Quantize colors
+            for (int counter = 0; counter < rgbValues.Length; counter += bytesPerPixel)
+                tree.GetQuantisedColor(rgbValues[counter], rgbValues[counter + 1], rgbValues[counter + 2]).CopyTo(rgbValues, counter);
+                
+            // Copy the RGB values back to the bitmap
+            System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, ptr, bytes);
+
+            // Unlock the bits.
+            bitmap.UnlockBits(bmpData);
         }
 
         public override string ToString()
         {
-            return "Octree Color Quantiser";
+            return $"Octree Color Quantiser K={KValue}";
         }
 
         /// <summary>

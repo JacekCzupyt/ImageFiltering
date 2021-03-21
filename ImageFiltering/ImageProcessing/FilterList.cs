@@ -50,6 +50,10 @@ namespace ImageFiltering
             FilterList.Add(ConvolutionFilter.EmbossFilterUp);
             FilterList.Add(ConvolutionFilter.EmbossFilterDown);
 
+            FilterList.Add(new OctreeColorQuantisation(40));
+            FilterList.Add(new OctreeColorQuantisation(100));
+            FilterList.Add(new OctreeColorQuantisation(300));
+
 
             FilterListView.ItemsSource = FilterList;
 
