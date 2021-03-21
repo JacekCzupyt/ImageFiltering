@@ -8,6 +8,7 @@ using System.Collections;
 
 namespace ImageFiltering.ImageProcessing
 {
+    
     public class OctreeColorQuantisation : ImageFilter
     {
         public string FilterType { get { return "Color Quantisers"; } }
@@ -25,19 +26,43 @@ namespace ImageFiltering.ImageProcessing
         /// <summary>
         /// Octree used for color quantisation
         /// </summary>
-        class Octree
+        internal class Octree
         {
             uint MaxLeafs, nLeafs = 0;
             OctreeNode root;
-            List<OctreeNode>[] LeafsPerLayer = new List<OctreeNode>[8];
+            List<OctreeNode>[] LeafsPerLayer = new List<OctreeNode>[9];
 
             public Octree(uint MaxLeafs/*Maximum leafs allowed in the octree*/)
             {
                 this.MaxLeafs = MaxLeafs;
-                for(int i = 0; i < 8; i++)
+                for(int i = 0; i <= 8; i++)
                     LeafsPerLayer[i] = new List<OctreeNode>();
 
                 root = new OctreeNode(this, null, 0, new BitArray(24));
+            }
+
+            /// <summary>
+            /// Finds the leaf coresponding to the id, if none exists, it is created, then the tree is reduced if nessesary
+            /// </summary>
+            /// <returns>Corresponding leaf node</returns>
+            OctreeNode GetCorespondingLeaf(BitArray id)
+            {
+                //get leaf node of the tree
+                OctreeNode leaf = root.GetCorespondingLeaf(id);
+
+                //reduce the tree
+                int ind = 8;
+                while (nLeafs > MaxLeafs)
+                {
+                    while (LeafsPerLayer[ind].Count == 0)
+                        ind--;
+                    //reduce the leaf with minimum pixel count value
+                    LeafsPerLayer[ind].Min().Reduce();
+                }
+
+                //the leaf may have changed due to the reductions preformed. 
+                //However this time we are guaranted that the coresponding leaf already exists, therfore no reductions will be nessesary
+                return root.GetCorespondingLeaf(id);
             }
 
             /// <summary>
@@ -49,21 +74,11 @@ namespace ImageFiltering.ImageProcessing
             /// <param name="count">Number of pixles to add of this color</param>
             public void AddColor(byte r /*Red pixel value*/, byte g/*Green pixel value*/, byte b/*Blue pixel value*/, int count = 1/*Number of pixles to add of this color*/)
             {
-                //get leaf node of the tree
-                OctreeNode leaf = root.GetCorespondingLeaf(new BitArray(new byte[3] { r, g, b }));
+                //get leaf node of the tree corresponding to the rgb value
+                OctreeNode leaf = GetCorespondingLeaf(new BitArray(new byte[3] { r, g, b }));
 
                 //add a pixel to it
                 leaf.PixelCount += count;
-
-                //reduce the tree
-                int ind = 8;
-                while(nLeafs > MaxLeafs)
-                {
-                    while (LeafsPerLayer[ind].Count == 0)
-                        ind--;
-                    //reduce the leaf with minimum pixel count value
-                    LeafsPerLayer[ind].Min().Reduce();
-                }
             }
 
             /// <summary>
@@ -76,15 +91,15 @@ namespace ImageFiltering.ImageProcessing
             public byte[] GetQuantisedColor(byte r /*Red pixel value*/, byte g/*Green pixel value*/, byte b/*Blue pixel value*/)
             {
                 //get leaf node of the tree
-                OctreeNode leaf = root.GetCorespondingLeaf(new BitArray(new byte[3] { r, g, b }));
+                OctreeNode leaf = GetCorespondingLeaf(new BitArray(new byte[3] { r, g, b }));
 
                 //change the node id to reflect the average color in the color range
                 BitArray nodeId = new BitArray(leaf.NodeId);
                 if (leaf.Layer != 8)
                 {
-                    nodeId[leaf.Layer] = true;
-                    nodeId[leaf.Layer+8] = true;
-                    nodeId[leaf.Layer+16] = true;
+                    nodeId[7-leaf.Layer] = true;
+                    nodeId[15-leaf.Layer] = true;
+                    nodeId[23-leaf.Layer] = true;
                 }
 
                 //copy and return the result
@@ -119,7 +134,7 @@ namespace ImageFiltering.ImageProcessing
                     //ensure that any node on layer 8 is a leaf
                     if (Layer == 8 && PixelCount == null)
                     {
-                        PixelCount = 0;
+                        this.PixelCount = 0;
                         Tree.nLeafs++;
                         Tree.LeafsPerLayer[Layer].Add(this);
                     }
@@ -139,15 +154,15 @@ namespace ImageFiltering.ImageProcessing
                         return this;
 
                     //get index of child that should be entered
-                    int index = 4 * (id[Layer] ? 1 : 0) + 2 * (id[8 + Layer] ? 1 : 0) + (id[16 + Layer] ? 1 : 0);
+                    int index = 4 * (id[7-Layer] ? 1 : 0) + 2 * (id[15-Layer] ? 1 : 0) + (id[23-Layer] ? 1 : 0);
 
                     //if child does not exist, create it
                     if (Children[index] == null)
                     {
-                        BitArray newNodeId = NodeId;
-                        newNodeId[Layer] = id[Layer];
-                        newNodeId[8 + Layer] = id[8 + Layer];
-                        newNodeId[16 + Layer] = id[16 + Layer];
+                        BitArray newNodeId = new BitArray(NodeId);
+                        newNodeId[7-Layer] = id[7-Layer];
+                        newNodeId[15-Layer] = id[15-Layer];
+                        newNodeId[23-Layer] = id[23-Layer];
                         Children[index] = new OctreeNode(Tree, this, Layer + 1, newNodeId);
                     }
 
