@@ -97,18 +97,8 @@ namespace ImageFiltering.UserControls
 
         private void AddNewFilterButtonClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
-            //FilterListView.SelectedItem = null;
-            //EditedConvolutionFilter = ConvolutionFilter.Blur(3);//arbitrary default filter
-            //EditedConvolutionFilter.FilterName = "New Filter";
-
-            //FilterEditPanel.DataContext = EditedConvolutionFilter;
-            //MatrixWidthTextBox.Text = EditedConvolutionFilter.Matrix.Width.ToString();
-            //MatrixHeightTextBox.Text = EditedConvolutionFilter.Matrix.Height.ToString();
-            //ApplyDimensionsButtonClick(null, null);
-
-            //FilterListGrid.Visibility = Visibility.Collapsed;
-            //FilterEditPanel.Visibility = Visibility.Visible;
+            FilterListView.SelectedItem = null;
+            ParentWindow.SwitchToNewFilterSelect();
         }
 
         public void InsertIntoList(ImageFilter filter)

@@ -81,5 +81,10 @@ namespace ImageFiltering
         {
             FilterManagementControl.Content = FilterListPanel;
         }
+
+        public void SwitchToNewFilterSelect()
+        {
+            FilterManagementControl.Content = new SelectNewFilterTypeControl(this);
+        }
     }
 }

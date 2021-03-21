@@ -8,6 +8,13 @@ namespace ImageFiltering.ImageProcessing
 {
     public partial class ConvolutionFilter : ImageFilter
     {
+        public static ConvolutionFilter DefaultTemplate { get
+            {
+                var filter = Blur(3);
+                filter.FilterName = "New Convolution Filter";
+                return filter;
+            } }
+
         public static ConvolutionFilter Blur(int Size)
         {
             if (Size < 0 || Size % 2 == 0)
@@ -20,6 +27,7 @@ namespace ImageFiltering.ImageProcessing
             m.ComputeDivisor();
             return new ConvolutionFilter(m, $"Blur {Size}px");
         }
+
         public static ConvolutionFilter GaussSmooth3 { get
             {
                 return new ConvolutionFilter(new ConvolutionMatrix(new int[3, 3]
