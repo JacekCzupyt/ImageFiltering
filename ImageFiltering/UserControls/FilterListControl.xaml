@@ -21,6 +21,11 @@
                     </GroupStyle.HeaderTemplate>
                 </GroupStyle>
             </ListView.GroupStyle>
+            <ListView.ItemTemplate>
+                <ItemContainerTemplate>
+                    <TextBlock Text="{Binding}" MouseLeftButtonDown="FilterClicked"/>
+                </ItemContainerTemplate>
+            </ListView.ItemTemplate>
         </ListView>
         <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
 

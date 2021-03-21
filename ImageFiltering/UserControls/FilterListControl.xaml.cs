@@ -113,5 +113,11 @@ namespace ImageFiltering.UserControls
             }
             FilterListView.SelectedItem = filter;
         }
+
+        private void FilterClicked(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+                ApplyFilterButtonClick(sender, e);
+        }
     }
 }
