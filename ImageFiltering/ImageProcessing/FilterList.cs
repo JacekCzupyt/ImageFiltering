@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using ImageFiltering.ImageProcessing;
+using ImageFiltering.UserControls;
 
 namespace ImageFiltering
 {
@@ -15,6 +16,7 @@ namespace ImageFiltering
         //contians a list of all avalible filters
         //List<ImageFilter> FilterList = new List<ImageFilter>();
         ObservableCollection<ImageFilter> FilterList = new ObservableCollection<ImageFilter>();
+        FilterListControl FilterListPanel;
 
         void InitializeFilterList()
         {
@@ -54,12 +56,9 @@ namespace ImageFiltering
             FilterList.Add(new OctreeColorQuantisation(100));
             FilterList.Add(new OctreeColorQuantisation(300));
 
-
-            FilterListView.ItemsSource = FilterList;
-
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(FilterListView.ItemsSource);
-            PropertyGroupDescription groupDescription = new PropertyGroupDescription("FilterType");
-            view.GroupDescriptions.Add(groupDescription);
+            FilterListPanel = new FilterListControl(this, FilterList);
+            FilterListPanel.DataContext = FilterList;
+            FilterManagementControl.Content = FilterListPanel;
         }
         private void ApplyFilterButtonClick(object sender, RoutedEventArgs e)
         {

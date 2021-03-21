@@ -38,7 +38,9 @@
 
             <Image Grid.Column="2" Name="FilteredImageDisplay" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-            <Grid Name="FilterListGrid" Grid.Column="4" Margin="2" Visibility="Visible">
+            <ContentControl Name="FilterManagementControl" Grid.Column="4" Margin="2"/>
+
+            <Grid Name="FilterListGrid" Grid.Column="4" Margin="2" Visibility="Collapsed">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="Auto"/>
