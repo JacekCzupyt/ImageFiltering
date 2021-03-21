@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using ImageFiltering.ImageProcessing;
+using ImageFiltering.UserControls;
 
 namespace ImageFiltering
 {
     partial class MainWindow : Window
     {
         //contians a list of all avalible filters
-        //List<ImageFilter> FilterList = new List<ImageFilter>();
         ObservableCollection<ImageFilter> FilterList = new ObservableCollection<ImageFilter>();
+        public FilterListControl FilterListPanel;
 
         void InitializeFilterList()
         {
@@ -51,87 +52,39 @@ namespace ImageFiltering
             FilterList.Add(ConvolutionFilter.EmbossFilterDown);
 
             FilterList.Add(new OctreeColorQuantisation(40));
+            FilterList.Add(new OctreeColorQuantisation(100));
+            FilterList.Add(new OctreeColorQuantisation(300));
 
-
-            FilterListView.ItemsSource = FilterList;
-
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(FilterListView.ItemsSource);
-            PropertyGroupDescription groupDescription = new PropertyGroupDescription("FilterType");
-            view.GroupDescriptions.Add(groupDescription);
+            FilterListPanel = new FilterListControl(this, FilterList);
+            FilterListPanel.DataContext = FilterList;
+            FilterManagementControl.Content = FilterListPanel;
         }
-        private void ApplyFilterButtonClick(object sender, RoutedEventArgs e)
+
+        public void ApplyFilter(ImageFilter filter)
         {
-            if (FilterListView.SelectedItem != null && FilteredImage != null)
+            if(FilteredImage != null)
             {
-                if (FilterListView.SelectedItem is ImageFilter)
-                {
-                    (FilterListView.SelectedItem as ImageFilter).Apply(FilteredImage);
-                    FilteredImageDisplay.Source = BitmapToImageSource(FilteredImage);
-                }
-                else
-                {
-                    throw new ArgumentException("Item in filter list is not a filter");
-                }
+                filter.Apply(FilteredImage);
+                FilteredImageDisplay.Source = BitmapToImageSource(FilteredImage);
             }
         }
 
-        private void DeleteFilterButtonClick(object sender, RoutedEventArgs e)
+        public void SwitchToEditFilter(ImageFilter filter)
         {
-            if (FilterListView.SelectedItem != null)
-            {
-                if (FilterListView.SelectedItem is ImageFilter)
-                {
-                    FilterList.Remove(FilterListView.SelectedItem as ImageFilter);
-                }
-                else
-                {
-                    throw new ArgumentException("Item in filter list is not a filter");
-                }
-            }
+            if (filter is ConvolutionFilter)
+                FilterManagementControl.Content = new EditConvolutionFilterControl(this, (filter as ConvolutionFilter).Clone() as ConvolutionFilter);
+            else if (filter is OctreeColorQuantisation)
+                FilterManagementControl.Content = new EditOctreeFilterControl(this, (filter as OctreeColorQuantisation).Clone() as OctreeColorQuantisation);
         }
 
-        //only works on convolution filters
-        private void DuplicateFilterButtonClick(object sender, RoutedEventArgs e)
+        public void SwitchToListView()
         {
-            
-            if (FilterListView.SelectedItem != null)
-            {
-                if (FilterListView.SelectedItem is ConvolutionFilter)
-                {
-                    FilterList.Add((FilterListView.SelectedItem as ConvolutionFilter).Clone() as ConvolutionFilter);
-                    FilterListView.SelectedItem = FilterList.Last();
-                }
-            }
+            FilterManagementControl.Content = FilterListPanel;
         }
 
-        private void EditFilterButtonClick(object sender, RoutedEventArgs e)
+        public void SwitchToNewFilterSelect()
         {
-            if (FilterListView.SelectedItem != null && FilterListView.SelectedItem is ConvolutionFilter)
-            {
-                EditedConvolutionFilter = (FilterListView.SelectedItem as ConvolutionFilter).Clone() as ConvolutionFilter;
-                FilterEditPanel.DataContext = EditedConvolutionFilter;
-                MatrixWidthTextBox.Text = EditedConvolutionFilter.Matrix.Width.ToString();
-                MatrixHeightTextBox.Text = EditedConvolutionFilter.Matrix.Height.ToString();
-                ApplyDimensionsButtonClick(null, null);
-
-                FilterListGrid.Visibility = Visibility.Collapsed;
-                FilterEditPanel.Visibility = Visibility.Visible;
-            }
-        }
-
-        private void AddNewFilterButtonClick(object sender, RoutedEventArgs e)
-        {
-            FilterListView.SelectedItem = null;
-            EditedConvolutionFilter = ConvolutionFilter.Blur(3);//arbitrary default filter
-            EditedConvolutionFilter.FilterName = "New Filter";
-
-            FilterEditPanel.DataContext = EditedConvolutionFilter;
-            MatrixWidthTextBox.Text = EditedConvolutionFilter.Matrix.Width.ToString();
-            MatrixHeightTextBox.Text = EditedConvolutionFilter.Matrix.Height.ToString();
-            ApplyDimensionsButtonClick(null, null);
-
-            FilterListGrid.Visibility = Visibility.Collapsed;
-            FilterEditPanel.Visibility = Visibility.Visible;
+            FilterManagementControl.Content = new SelectNewFilterTypeControl(this);
         }
     }
 }

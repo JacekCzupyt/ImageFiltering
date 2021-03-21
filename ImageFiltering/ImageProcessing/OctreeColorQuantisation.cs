@@ -10,13 +10,15 @@ using System.Drawing.Imaging;
 namespace ImageFiltering.ImageProcessing
 {
     
-    public class OctreeColorQuantisation : ImageFilter
+    public class OctreeColorQuantisation : ImageFilter, ICloneable
     {
         public uint KValue { get; set; }
+        public string FilterName { get; set; }
 
-        public OctreeColorQuantisation(uint KValue)
+        public OctreeColorQuantisation(uint KValue, string FilterName=null)
         {
             this.KValue = KValue;
+            this.FilterName = FilterName ?? $"Octree Color Quantizer K={KValue}";
         }
 
         public string FilterType { get { return "Color Quantisers"; } }
@@ -58,7 +60,12 @@ namespace ImageFiltering.ImageProcessing
 
         public override string ToString()
         {
-            return $"Octree Color Quantiser K={KValue}";
+            return FilterName;
+        }
+
+        public object Clone()
+        {
+            return new OctreeColorQuantisation(KValue, FilterName);
         }
 
         /// <summary>

@@ -2,27 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
 using ImageFiltering.ImageProcessing;
 
-namespace ImageFiltering
+namespace ImageFiltering.UserControls
 {
-    partial class MainWindow : Window
+    /// <summary>
+    /// Interaction logic for EditConvolutionFilterControl.xaml
+    /// </summary>
+    public partial class EditConvolutionFilterControl : UserControl
     {
+        MainWindow ParentWindow;
+
         const int MaxMatrixGridSize = 9;
         ConvolutionFilter EditedConvolutionFilter;
         TextBox[,] MatrixTextBoxes = new TextBox[MaxMatrixGridSize, MaxMatrixGridSize];
 
-        private void InitializeFilterEditPanel()
+        public EditConvolutionFilterControl(MainWindow ParentWindow, ConvolutionFilter EditedConvolutionFilter)
         {
-            for(int i = 0; i < MaxMatrixGridSize; i++)
+            InitializeComponent();
+            this.ParentWindow = ParentWindow;
+            this.EditedConvolutionFilter = EditedConvolutionFilter;
+
+            this.DataContext = EditedConvolutionFilter;
+
+            //initialize the grid representing the matrix
+            for (int i = 0; i < MaxMatrixGridSize; i++)
             {
-                for(int j = 0; j < MaxMatrixGridSize; j++)
+                for (int j = 0; j < MaxMatrixGridSize; j++)
                 {
                     MatrixTextBoxes[i, j] = new TextBox();
                     MatrixTextBoxes[i, j].TextAlignment = TextAlignment.Center;
@@ -37,8 +54,13 @@ namespace ImageFiltering
                     MatrixTextBoxes[i, j].SetBinding(TextBox.TextProperty, binding);
                 }
             }
+
+            //fill in dimensions and apply them to the grid
+            MatrixWidthTextBox.Text = EditedConvolutionFilter.Matrix.Width.ToString();
+            MatrixHeightTextBox.Text = EditedConvolutionFilter.Matrix.Height.ToString();
+            ApplyDimensionsButtonClick(null, null);
         }
-        
+
         private void ApplyDimensionsButtonClick(object sender, RoutedEventArgs e)
         {
             int NewWidth, NewHeight;
@@ -63,20 +85,20 @@ namespace ImageFiltering
             {
                 ConvolutionMatrix m = EditedConvolutionFilter.Matrix;
                 int[,] newValues = new int[NewWidth, NewHeight];
-                for(int i = 0; i < NewWidth; i++)
+                for (int i = 0; i < NewWidth; i++)
                 {
-                    for(int j = 0; j < NewHeight; j++)
+                    for (int j = 0; j < NewHeight; j++)
                     {
                         //ConvolutionMatrix[i, j] returns 0 if i, j is out of range, so this works correctly
                         newValues[i, j] = m[i, j];
                     }
                 }
                 EditedConvolutionFilter.Matrix = new ConvolutionMatrix(newValues, m.Divisor, m.Offset, (m.AnchorX, m.AnchorY));
-                
+
                 for (int i = 0; i < NewWidth; i++)
                     for (int j = 0; j < NewHeight; j++)
                         MatrixTextBoxes[i, j].GetBindingExpression(TextBox.TextProperty).UpdateTarget();
-                
+
                 DivisorTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
                 OffsetTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
                 AnchorXTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
@@ -92,9 +114,9 @@ namespace ImageFiltering
             for (int i = 0; i < NewHeight; i++)
                 EditConvolutionMatrixGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 
-            for(int i = 0;i< 9; i++)
+            for (int i = 0; i < 9; i++)
             {
-                for(int j = 0; j < 9; j++)
+                for (int j = 0; j < 9; j++)
                 {
                     MatrixTextBoxes[i, j].Visibility = (i < NewWidth && j < NewHeight) ? Visibility.Visible : Visibility.Collapsed;
                 }
@@ -117,25 +139,13 @@ namespace ImageFiltering
 
         private void SaveFilterButtonClick(object sender, RoutedEventArgs e)
         {
-            if(FilterListView.SelectedItem == null)
-            {
-                FilterList.Add(EditedConvolutionFilter);
-            }
-            else
-            {
-                FilterList[FilterList.IndexOf(FilterListView.SelectedItem as ImageFilter)] = EditedConvolutionFilter;
-            }
-            FilterListView.SelectedItem = EditedConvolutionFilter;
-            EditedConvolutionFilter = null;
-            FilterEditPanel.Visibility = Visibility.Collapsed;
-            FilterListGrid.Visibility = Visibility.Visible;
+            ParentWindow.FilterListPanel.InsertIntoList(EditedConvolutionFilter);
+            ParentWindow.SwitchToListView();
         }
 
         private void CancelFilterButtonClick(object sender, RoutedEventArgs e)
         {
-            EditedConvolutionFilter = null;
-            FilterEditPanel.Visibility = Visibility.Collapsed;
-            FilterListGrid.Visibility = Visibility.Visible;
+            ParentWindow.SwitchToListView();
         }
     }
 }

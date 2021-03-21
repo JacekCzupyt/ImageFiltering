@@ -25,16 +25,6 @@ namespace ImageFiltering
             InitializeComponent();
 
             InitializeFilterList();
-
-            InitializeFilterEditPanel();
-
-
-
-            //MatrixWidthTextBox.DataContext = testContainer;
-            //MatrixHeightTextBox.DataContext = testContainer;
-            //ApplyDimensionsButton.DataContext = testContainer;
-            //temp
-            //testContainer c = new testContainer();
         }
 
     }

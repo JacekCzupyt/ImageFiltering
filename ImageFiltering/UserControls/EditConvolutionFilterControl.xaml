@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="ImageFiltering.UserControls.EditConvolutionFilterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ImageFiltering.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <StackPanel Margin="2">
+                <TextBlock Text="Filter Name" TextAlignment="Center"/>
+                <TextBox TextAlignment="Center" Text="{Binding Path=FilterName, Mode=TwoWay}"/>
+
+                <Rectangle Height="5"/>
+
+                <TextBlock Text="Matrix Dimensions" TextAlignment="Center"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Name="MatrixWidthTextBox" TextAlignment="Center"/>
+                    <TextBlock Text="x" Grid.Column="1" Width="15" TextAlignment="Center"/>
+                    <TextBox Name="MatrixHeightTextBox" Grid.Column="2" TextAlignment="Center"/>
+                </Grid>
+                <Button Content="Apply" Width="50" Click="ApplyDimensionsButtonClick"/>
+
+                <Rectangle Height="5"/>
+
+                <Grid Name="EditConvolutionMatrixGrid" ShowGridLines="True" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5"/>
+
+                <Rectangle Height="5"/>
+
+                <TextBlock Text="Divisor" TextAlignment="Center"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Name="DivisorTextBox" TextAlignment="Center" Text="{Binding Path=Matrix.Divisor, Mode=TwoWay}"/>
+                    <Button Grid.Column="1" Content="Compute" Click="ComputeDivisorButtonClick"/>
+                </Grid>
+
+                <Rectangle Height="5"/>
+
+                <TextBlock Text="Offset" TextAlignment="Center"/>
+                <TextBox Name="OffsetTextBox" TextAlignment="Center" Text="{Binding Path=Matrix.Offset, Mode=TwoWay}"/>
+
+                <Rectangle Height="5"/>
+
+                <TextBlock Text="Anchor Point" TextAlignment="Center"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Name="AnchorXTextBox" TextAlignment="Center" Text="{Binding Path=Matrix.AnchorX, Mode=TwoWay}"/>
+                    <TextBlock Text="x" Grid.Column="1" Width="15" TextAlignment="Center"/>
+                    <TextBox Name="AnchorYTextBox" Grid.Column="2" TextAlignment="Center" Text="{Binding Path=Matrix.AnchorY, Mode=TwoWay}"/>
+                </Grid>
+                <Button Content="Center" Width="50" Click="CenterAnchorButtonClick"/>
+
+                <Rectangle Height="5"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Row="1" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button Content="Save" Click="SaveFilterButtonClick"/>
+            <Button Grid.Column="1" Content="Cancel" Click="CancelFilterButtonClick"/>
+        </Grid>
+    </Grid>
+</UserControl>

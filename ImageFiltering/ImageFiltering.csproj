@@ -59,6 +59,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="UserControls\EditConvolutionFilterControl.xaml.cs">
+      <DependentUpon>EditConvolutionFilterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\EditOctreeFilterControl.xaml.cs">
+      <DependentUpon>EditOctreeFilterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilterListControl.xaml.cs">
+      <DependentUpon>FilterListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SelectNewFilterTypeControl.xaml.cs">
+      <DependentUpon>SelectNewFilterTypeControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -67,7 +79,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImageDisplay\EditConvolutionFilterPanel.cs" />
     <Compile Include="ImageDisplay\ImageLoading.cs" />
     <Compile Include="ImageProcessing\ConvolutionFilter.cs" />
     <Compile Include="ImageProcessing\ConvolutionFilterTemplates.cs" />
@@ -84,6 +95,22 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\EditConvolutionFilterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\EditOctreeFilterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilterListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SelectNewFilterTypeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
