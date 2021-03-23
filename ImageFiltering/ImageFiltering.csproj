@@ -66,6 +66,9 @@
     <Compile Include="UserControls\EditOctreeFilterControl.xaml.cs">
       <DependentUpon>EditOctreeFilterControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\EditRandomDitheringFilter.xaml.cs">
+      <DependentUpon>EditRandomDitheringFilter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\FilterListControl.xaml.cs">
       <DependentUpon>FilterListControl.xaml</DependentUpon>
     </Compile>
@@ -102,6 +105,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\EditOctreeFilterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\EditRandomDitheringFilter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

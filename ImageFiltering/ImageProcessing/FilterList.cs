@@ -80,6 +80,8 @@ namespace ImageFiltering
                 FilterManagementControl.Content = new EditConvolutionFilterControl(this, (filter as ConvolutionFilter).Clone() as ConvolutionFilter);
             else if (filter is OctreeColorQuantisation)
                 FilterManagementControl.Content = new EditOctreeFilterControl(this, (filter as OctreeColorQuantisation).Clone() as OctreeColorQuantisation);
+            else if (filter is RandomDitheringFilter)
+                FilterManagementControl.Content = new EditRandomDitheringFilter(this, (filter as RandomDitheringFilter).Clone() as RandomDitheringFilter);
         }
 
         public void SwitchToListView()
