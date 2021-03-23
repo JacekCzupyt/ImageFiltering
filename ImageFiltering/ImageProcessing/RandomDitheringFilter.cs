@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImageFiltering.ImageProcessing
 {
-    public partial class RandomDitheringFilter : ImageFilter
+    public partial class RandomDitheringFilter : ImageFilter, ICloneable
     {
         public uint KValue { get; set; }
         public string FilterName { get; set; }
@@ -64,6 +64,11 @@ namespace ImageFiltering.ImageProcessing
         public override string ToString()
         {
             return FilterName;
+        }
+
+        public object Clone()
+        {
+            return new RandomDitheringFilter(KValue, FilterName);
         }
 
         public string FilterType { get { return "Dithering Filters"; } }
