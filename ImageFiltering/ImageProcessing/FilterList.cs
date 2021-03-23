@@ -55,6 +55,11 @@ namespace ImageFiltering
             FilterList.Add(new OctreeColorQuantisation(100));
             FilterList.Add(new OctreeColorQuantisation(300));
 
+            FilterList.Add(new RandomDitheringFilter(2));
+            FilterList.Add(new RandomDitheringFilter(4));
+            FilterList.Add(new RandomDitheringFilter(8));
+
+
             FilterListPanel = new FilterListControl(this, FilterList);
             FilterListPanel.DataContext = FilterList;
             FilterManagementControl.Content = FilterListPanel;
@@ -75,6 +80,8 @@ namespace ImageFiltering
                 FilterManagementControl.Content = new EditConvolutionFilterControl(this, (filter as ConvolutionFilter).Clone() as ConvolutionFilter);
             else if (filter is OctreeColorQuantisation)
                 FilterManagementControl.Content = new EditOctreeFilterControl(this, (filter as OctreeColorQuantisation).Clone() as OctreeColorQuantisation);
+            else if (filter is RandomDitheringFilter)
+                FilterManagementControl.Content = new EditRandomDitheringFilter(this, (filter as RandomDitheringFilter).Clone() as RandomDitheringFilter);
         }
 
         public void SwitchToListView()

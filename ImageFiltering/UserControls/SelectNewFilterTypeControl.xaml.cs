@@ -33,7 +33,8 @@ namespace ImageFiltering.UserControls
         private static Dictionary<string, Func<ImageFilter>> FilterTypeDictionary = new Dictionary<string, Func<ImageFilter>>()
         {
             {"Convolution filter", () => ConvolutionFilter.DefaultTemplate},
-            {"Octree color quantizer", () => new OctreeColorQuantisation(100) }
+            {"Octree color quantizer", () => new OctreeColorQuantisation(100) },
+            {"Random dithering filter", () => new RandomDitheringFilter(2) }
         };
 
         private void SelectButtonClick(object sender, RoutedEventArgs e)
