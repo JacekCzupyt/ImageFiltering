@@ -55,6 +55,11 @@ namespace ImageFiltering
             FilterList.Add(new OctreeColorQuantisation(100));
             FilterList.Add(new OctreeColorQuantisation(300));
 
+            FilterList.Add(new RandomDitheringFilter(2));
+            FilterList.Add(new RandomDitheringFilter(4));
+            FilterList.Add(new RandomDitheringFilter(8));
+
+
             FilterListPanel = new FilterListControl(this, FilterList);
             FilterListPanel.DataContext = FilterList;
             FilterManagementControl.Content = FilterListPanel;

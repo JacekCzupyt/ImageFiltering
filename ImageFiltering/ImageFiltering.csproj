@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ImageProcessing\RandomDitheringFilter.cs" />
     <Compile Include="UserControls\EditConvolutionFilterControl.xaml.cs">
       <DependentUpon>EditConvolutionFilterControl.xaml</DependentUpon>
     </Compile>
