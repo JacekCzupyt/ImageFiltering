@@ -9,7 +9,7 @@ namespace ImageFiltering.ImageProcessing
 {
     public interface ImageFilter
     {
-        void Apply(Bitmap bitmap);
+        Bitmap Apply(Bitmap bitmap);
         string FilterType { get; }
     }
 }

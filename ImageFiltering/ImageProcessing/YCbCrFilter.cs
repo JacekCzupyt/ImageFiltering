@@ -8,21 +8,25 @@ using System.Threading.Tasks;
 
 namespace ImageFiltering.ImageProcessing
 {
-    public partial class RandomDitheringFilter : ImageFilter, ICloneable
+    public class YCbCrFilter: ImageFilter, ICloneable
     {
         public uint KValue { get; set; }
         public string FilterName { get; set; }
 
-        public RandomDitheringFilter(uint KValue, string FilterName = null)
+        public YCbCrFilter(uint KValue, string FilterName = null)
         {
-            if (KValue < 2)
-                throw new ArgumentException();
             this.KValue = KValue;
-            this.FilterName = FilterName ?? $"Random Dithering Filter K={KValue}";
+            this.FilterName = FilterName ?? $"YcbCr Filter K={KValue}";
         }
 
-        public Bitmap Apply(Bitmap bitmap)
+        public string FilterType { get { return "YCbCr Filters"; } }
+
+        public Bitmap Apply(Bitmap previousBitmap)
         {
+            new OctreeColorQuantisation(KValue).Apply(previousBitmap);
+
+            var bitmap = new Bitmap(previousBitmap.Width, previousBitmap.Height * 3);
+
             // Lock the bitmap's bits.  
             Rectangle rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
             BitmapData bmpData =
@@ -39,19 +43,26 @@ namespace ImageFiltering.ImageProcessing
             // Copy the RGB values into the array.
             System.Runtime.InteropServices.Marshal.Copy(ptr, rgbValues, 0, bytes);
 
-            int bytesPerPixel = bmpData.Stride / bmpData.Width;
+            //lock previousBitmap
+            Rectangle rect2 = new Rectangle(0, 0, previousBitmap.Width, previousBitmap.Height);
+            BitmapData bmpData2 =
+                previousBitmap.LockBits(rect2, System.Drawing.Imaging.ImageLockMode.ReadWrite,
+                previousBitmap.PixelFormat);
 
-            Random rand = new Random();
-            byte[] randomByte = new byte[KValue];
+            // Get the address of the first line.
+            IntPtr ptr2 = bmpData2.Scan0;
 
-            // Generate thresholds and check how many are smaller then the color value, apply the appropiate color
-            for (int counter = 0; counter < rgbValues.Length; counter += bytesPerPixel)
+            // Declare an array to hold the bytes of the bitmap.
+            int bytes2 = Math.Abs(bmpData2.Stride) * previousBitmap.Height;
+            byte[] prevrgbValues = new byte[bytes2];
+
+            // Copy the RGB values into the array.
+            System.Runtime.InteropServices.Marshal.Copy(ptr2, prevrgbValues, 0, bytes2);
+
+            // Build Octree
+            for(int i = 0; i < rgbValues.Length; i++)
             {
-                rand.NextBytes(randomByte);
-                for(int i = 0; i < 3; i++)
-                {
-                    rgbValues[counter + i] = (byte)(255*randomByte.Count((byte b) => (b < rgbValues[counter + i]))/KValue);
-                }
+                rgbValues[i] = prevrgbValues[i % prevrgbValues.Length];
             }
 
             // Copy the RGB values back to the bitmap
@@ -59,6 +70,8 @@ namespace ImageFiltering.ImageProcessing
 
             // Unlock the bits.
             bitmap.UnlockBits(bmpData);
+
+            previousBitmap.UnlockBits(bmpData2);
 
             return bitmap;
         }
@@ -70,9 +83,7 @@ namespace ImageFiltering.ImageProcessing
 
         public object Clone()
         {
-            return new RandomDitheringFilter(KValue, FilterName);
+            return new YCbCrFilter(KValue, FilterName);
         }
-
-        public string FilterType { get { return "Dithering Filters"; } }
     }
 }
