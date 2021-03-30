@@ -59,10 +59,32 @@ namespace ImageFiltering.ImageProcessing
             // Copy the RGB values into the array.
             System.Runtime.InteropServices.Marshal.Copy(ptr2, prevrgbValues, 0, bytes2);
 
-            // Build Octree
-            for(int i = 0; i < rgbValues.Length; i++)
+            int bytesPerPixel = bmpData.Stride / bmpData.Width;
+
+            // Fill in the color channels
+            for (int i = 0; i < prevrgbValues.Length; i+=bytesPerPixel)
             {
-                rgbValues[i] = prevrgbValues[i % prevrgbValues.Length];
+                float Y = 16 + (1 / 256.0f) * (65.738f * prevrgbValues[i] + 129.057f * prevrgbValues[i + 1] + 25.064f * prevrgbValues[i + 2]);
+                float t = (Y - 16) / (float)(235 - 16);
+                rgbValues[i] = (byte)(Math.Min(t * 256, 255));
+                rgbValues[i + 1] = rgbValues[i];
+                rgbValues[i + 2] = rgbValues[i];
+            }
+            for (int i = 0; i < prevrgbValues.Length; i += bytesPerPixel)
+            {
+                float Cb = 128 + (1 / 256.0f) * (-37.934f * prevrgbValues[i] - 74.494f * prevrgbValues[i + 1] + 112.439f * prevrgbValues[i + 2]);
+                float t = (Cb - 16) / (float)(240 - 16);
+                rgbValues[prevrgbValues.Length + i] = 127;
+                rgbValues[prevrgbValues.Length + i + 2] = (byte)(Math.Min(t * 256, 255));
+                rgbValues[prevrgbValues.Length + i + 1] = (byte)(255 - rgbValues[prevrgbValues.Length + i + 2]);
+            }
+            for (int i = 0; i < prevrgbValues.Length; i += bytesPerPixel)
+            {
+                float Y = 128 + (1 / 256.0f) * (112.439f * prevrgbValues[i] - 94.154f * prevrgbValues[i + 1] - 18.285f * prevrgbValues[i + 2]);
+                float t = (Y - 16) / (float)(240 - 16);
+                rgbValues[2 * prevrgbValues.Length + i] = (byte)(Math.Min(t * 256, 255));
+                rgbValues[2 * prevrgbValues.Length + i + 1] = (byte)(255 - rgbValues[2 * prevrgbValues.Length + i]);
+                rgbValues[2 * prevrgbValues.Length + i + 2] = 127;
             }
 
             // Copy the RGB values back to the bitmap
