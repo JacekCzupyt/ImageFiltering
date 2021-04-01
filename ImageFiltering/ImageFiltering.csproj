@@ -60,6 +60,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ImageProcessing\RandomDitheringFilter.cs" />
+    <Compile Include="ImageProcessing\YCbCrFilter.cs" />
     <Compile Include="UserControls\EditConvolutionFilterControl.xaml.cs">
       <DependentUpon>EditConvolutionFilterControl.xaml</DependentUpon>
     </Compile>

@@ -59,6 +59,8 @@ namespace ImageFiltering
             FilterList.Add(new RandomDitheringFilter(4));
             FilterList.Add(new RandomDitheringFilter(8));
 
+            FilterList.Add(new YCbCrFilter(100));
+
 
             FilterListPanel = new FilterListControl(this, FilterList);
             FilterListPanel.DataContext = FilterList;
@@ -69,7 +71,7 @@ namespace ImageFiltering
         {
             if(FilteredImage != null)
             {
-                filter.Apply(FilteredImage);
+                FilteredImage = filter.Apply(FilteredImage);
                 FilteredImageDisplay.Source = BitmapToImageSource(FilteredImage);
             }
         }

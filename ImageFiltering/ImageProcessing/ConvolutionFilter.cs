@@ -22,7 +22,7 @@ namespace ImageFiltering.ImageProcessing
             this.FilterName = FilterName;
         }
 
-        public void Apply(Bitmap bitmap)
+        public Bitmap Apply(Bitmap bitmap)
         {
             // Lock the bitmap's bits.  
             Rectangle rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
@@ -71,6 +71,8 @@ namespace ImageFiltering.ImageProcessing
 
             // Unlock the bits.
             bitmap.UnlockBits(bmpData);
+
+            return bitmap;
         }
 
         public override string ToString()
